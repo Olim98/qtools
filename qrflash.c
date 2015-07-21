@@ -31,7 +31,7 @@ for(page=0;page<ppb;page++)  {
 //****************************************************************
 //* Чтение блока данных с восстановлением китайского изврата
 //****************************************************************
-read_block_resequence(int block, FILE* out) {
+void read_block_resequence(int block, FILE* out) {
 unsigned char iobuf[4096];  
 unsigned int page,sec;
  // цикл по страницам
@@ -79,13 +79,10 @@ printf("\n");
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 void main(int argc, char* argv[]) {
   
-unsigned char iobuf[2048];
 unsigned char partname[17]={0}; // имя раздела
 unsigned char filename[300]="qflash.bin";
-unsigned int i,sec,bcnt,iolen,page,block,filepos,lastpos;
-int res;
+unsigned int i,block,filepos,lastpos;
 unsigned char c;
-unsigned char* sptr;
 unsigned int start=0,len=1,opt;
 unsigned int cwsize;
 unsigned int partlist[60]; // список разделов, разрешенных для чтения
@@ -94,14 +91,14 @@ FILE* out;
 FILE* part=0;
 int partflag=0;  // 0 - сырой флеш, 1 - таблица разделов из файла, 2 - таблица разделов из флеша
 int eccflag=1;  // 1 - отключить ECC,  0 - включить
-int partnumber=-1; // флаг выбра раздела для чтения, -1 - все разделы, 1 - по списку
-int rflag=0;     // формат разделов: 0 - авто, 1 - стандартный, 2 - линуксокитайский
+int partnumber=-1; // флаг выбора раздела для чтения, -1 - все разделы, 1 - по списку
+int rflag=0;     // формат разделов: 0 - авто, 1 - стандартный, 2 - линуксо-китайский
 int listmode=0;    // 1- вывод карты разделов
 int truncflag=0;  //  1 - отрезать все FF от конца раздела
 int xflag=0;
 
 int attr; // арибуты
-unsigned int npar; // число разедлов в таблице
+unsigned int npar; // число разделов в таблице
 
 
 #ifndef WIN32
